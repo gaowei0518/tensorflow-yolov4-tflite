@@ -26,6 +26,7 @@ flags.DEFINE_float('score', 0.25, 'score threshold')
 flags.DEFINE_string('output', None, 'path to output video')
 flags.DEFINE_string('output_format', 'XVID', 'codec used in VideoWriter when saving video to file')
 flags.DEFINE_boolean('dis_cv2_window', False, 'disable cv2 window during the process') # this is good for the .ipynb
+flags.DEFINE_string('class_file_name', './data/classes/coco.names', 'file contain the class names')
 
 def main(_argv):
     config = ConfigProto()
@@ -102,7 +103,7 @@ def main(_argv):
             score_threshold=FLAGS.score
         )
         pred_bbox = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
-        image = utils.draw_bbox(frame, pred_bbox)
+        image = utils.draw_bbox(frame, pred_bbox,class_file_name=FLAGS.class_file_name))
         curr_time = time.time()
         exec_time = curr_time - prev_time
         result = np.asarray(image)
