@@ -23,6 +23,8 @@ flags.DEFINE_string('image', './data/kite.jpg', 'path to input image')
 flags.DEFINE_string('output', 'result.png', 'path to output image')
 flags.DEFINE_float('iou', 0.45, 'iou threshold')
 flags.DEFINE_float('score', 0.25, 'score threshold')
+#FLAGS.class_file_name
+flags.DEFINE_string('class_file_name', './data/classes/coco.names', 'file contain the class names')
 
 def main(_argv):
     config = ConfigProto()
@@ -78,7 +80,7 @@ def main(_argv):
         score_threshold=FLAGS.score
     )
     pred_bbox = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
-    image = utils.draw_bbox(original_image, pred_bbox)
+    image = utils.draw_bbox(original_image, pred_bbox,class_file_name = FLAGS.class_file_name)
     # image = utils.draw_bbox(image_data*255, pred_bbox)
     image = Image.fromarray(image.astype(np.uint8))
     #image.show()
